@@ -1,12 +1,12 @@
 service: serverless-rest-api-with-dynamodb
 
-frameworkVersion: ">=1.1.0 <=2.1.1"
+frameworkVersion: ">=1.1.0 <2.0.0"
 
 provider:
   name: aws
-  runtime: python3.8
+  runtime: nodejs10.x
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: AppUsers
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -16,52 +16,52 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: "arn:aws:dynamodb:us-east-1:554065750062:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 functions:
   create:
-    handler: todos/create.create
+    handler: appUsers/create.create
     events:
       - http:
-          path: todos
+          path: appUsers
           method: post
           cors: true
 
   list:
-    handler: todos/list.list
+    handler: appUsers/list.list
     events:
       - http:
-          path: todos
+          path: appUsers
           method: get
           cors: true
 
   get:
-    handler: todos/get.get
+    handler: appUsers/get.get
     events:
       - http:
-          path: todos/{id}
+          path: appUsers/{id}
           method: get
           cors: true
 
   update:
-    handler: todos/update.update
+    handler: appUsers/update.update
     events:
       - http:
-          path: todos/{id}
+          path: appUsers/{id}
           method: put
           cors: true
 
   delete:
-    handler: todos/delete.delete
+    handler: appUsers/delete.delete
     events:
       - http:
-          path: todos/{id}
+          path: appUsers/{id}
           method: delete
           cors: true
 
 resources:
   Resources:
-    TodosDynamoDbTable:
+    appUsersDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:

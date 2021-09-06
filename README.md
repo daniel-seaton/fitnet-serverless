@@ -1,14 +1,14 @@
 <!--
-title: 'AWS Serverless REST API with DynamoDB store example in Python'
+title: 'AWS Serverless REST API example in NodeJS'
 description: 'This example demonstrates how to setup a RESTful Web Service allowing you to create, list, get, update and delete Todos. DynamoDB is used to store the data.'
 layout: Doc
 framework: v1
 platform: AWS
-language: Python
+language: nodeJS
 priority: 10
-authorLink: 'https://github.com/godfreyhobbs'
-authorName: 'Godfrey Hobbs'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/8434141?v=4&s=140'
+authorLink: 'https://github.com/ozbillwang'
+authorName: 'Bill Wang'
+authorAvatar: 'https://avatars3.githubusercontent.com/u/8954908?v=4&s=140'
 -->
 # Serverless REST API
 
@@ -16,7 +16,7 @@ This example demonstrates how to setup a [RESTful Web Services](https://en.wikip
 
 ## Structure
 
-This service has a separate directory for all the todo operations. For each operation exactly one file exists e.g. `todos/delete.py`. In each of these files there is exactly one function defined.
+This service has a separate directory for all the todo operations. For each operation exactly one file exists e.g. `todos/delete.js`. In each of these files there is exactly one function which is directly attached to `module.exports`.
 
 The idea behind the `todos` directory is that in case you want to create a service containing multiple resources e.g. users, notes, comments you could do so in the same service. While this is certainly possible you might consider creating a separate service for each resource. It depends on the use-case and your preference.
 
@@ -28,7 +28,7 @@ The idea behind the `todos` directory is that in case you want to create a servi
 ## Setup
 
 ```bash
-npm install -g serverless
+npm install
 ```
 
 ## Deploy
@@ -79,7 +79,10 @@ You can create, retrieve, update, or delete todos with the following commands:
 curl -X POST https://XXXXXXX.execute-api.us-east-1.amazonaws.com/dev/todos --data '{ "text": "Learn Serverless" }'
 ```
 
-No output
+Example Result:
+```bash
+{"text":"Learn Serverless","id":"ee6490d0-aa11e6-9ede-afdfa051af86","createdAt":1479138570824,"checked":false,"updatedAt":1479138570824}%
+```
 
 ### List all Todos
 
