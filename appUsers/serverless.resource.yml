@@ -1,0 +1,17 @@
+Resources:
+  appUsersDynamoDbTable:
+    Type: 'AWS::DynamoDB::Table'
+    DeletionPolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: uid
+          AttributeType: S
+      KeySchema:
+        -
+          AttributeName: uid
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      TableName: ${self:provider.environment.APPUSER_TABLE}

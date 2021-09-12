@@ -1,0 +1,32 @@
+Resources:
+  workoutsDynamoDbTable:
+    Type: 'AWS::DynamoDB::Table'
+    DeletionPolicy: Retain
+    Properties:
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      AttributeDefinitions:
+        -
+          AttributeName: wid
+          AttributeType: S
+        -
+          AttributeName: uid
+          AttributeType: S
+      KeySchema:
+        -
+          AttributeName: wid
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - 
+          IndexName: uid_Index
+          KeySchema:
+            -
+              AttributeName: uid
+              KeyType: HASH
+          Projection:
+            ProjectionType: 'ALL'
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+      TableName: ${self:provider.environment.WORKOUT_TABLE}

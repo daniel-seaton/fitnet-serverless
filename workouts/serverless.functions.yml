@@ -1,0 +1,39 @@
+workoutCreate:
+  handler: workouts/create.create
+  events:
+    - http:
+        path: workout
+        method: post
+        cors: true
+
+workoutGet:
+  handler: workouts/get.get
+  events:
+    - http:
+        path: workout/{wid}
+        method: get
+        cors: true
+
+workoutListByUser:
+  handler: workouts/list.list
+  events:
+    - http:
+        path: workout/user/{uid}
+        method: get
+        cors: true
+
+workoutUpdate:
+  handler: workouts/update.update
+  events:
+    - http:
+        path: workout/{wid}
+        method: put
+        cors: true
+
+workoutDelete:
+  handler: workouts/delete.delete
+  events:
+    - http:
+        path: workout/{wid}
+        method: delete
+        cors: true

@@ -8,19 +8,15 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.create = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
+
   const params = {
-    TableName: process.env.APPUSER_TABLE,
+    TableName: process.env.WORKOUT_TABLE,
     Item: {
-      uid: data.uid || uuid.v4(),
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      username: data.username,
-      city: data.city,
-      state: data.state,
-      height: data.height,
-      weightLogs: data.weightLogs,
-      profileImageVersion: data.profileImageVersion,
+      wid: data.wid || uuid.v4(),
+      uid: data.uid,
+      name: data.name,
+      steps: data.steps || [],
+      defaultFormat : data.defaultFormat,
       created: timestamp,
       updated: timestamp,
     },
@@ -34,7 +30,7 @@ module.exports.create = (event, context, callback) => {
       callback(null, {
         statusCode: error.statusCode || 501,
         headers: { 'Content-Type': 'text/plain' },
-        body: `Couldn\'t create the appUser: ${error}`,
+        body: 'Couldn\'t create the todo item.',
       });
       return;
     }

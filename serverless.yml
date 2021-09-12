@@ -1,12 +1,12 @@
-service: serverless-rest-api-with-dynamodb
-
-frameworkVersion: ">=1.1.0 <2.0.0"
+service: fitnet-serverless
 
 provider:
   name: aws
   runtime: nodejs10.x
   environment:
-    DYNAMODB_TABLE: AppUsers
+    APPUSER_TABLE: AppUsers
+    WORKOUT_TABLE: Workouts
+    WORKOUTINSTANCE_TABLE: WorkoutInstances
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -16,64 +16,15 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:us-east-1:554065750062:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: "arn:aws:dynamodb:us-east-1:554065750062:table/*"
 
 functions:
-  create:
-    handler: appUsers/create.create
-    events:
-      - http:
-          path: appUsers
-          method: post
-          cors: true
-
-  list:
-    handler: appUsers/list.list
-    events:
-      - http:
-          path: appUsers
-          method: get
-          cors: true
-
-  get:
-    handler: appUsers/get.get
-    events:
-      - http:
-          path: appUsers/{id}
-          method: get
-          cors: true
-
-  update:
-    handler: appUsers/update.update
-    events:
-      - http:
-          path: appUsers/{id}
-          method: put
-          cors: true
-
-  delete:
-    handler: appUsers/delete.delete
-    events:
-      - http:
-          path: appUsers/{id}
-          method: delete
-          cors: true
+  - ${file(appUsers/serverless.functions.yml)}
+  - ${file(workouts/serverless.functions.yml)}
+  - ${file(workoutInstances/serverless.functions.yml)}
 
 resources:
-  Resources:
-    appUsersDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: id
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+  - ${file(appUsers/serverless.resource.yml)}
+  - ${file(workouts/serverless.resource.yml)}
+  - ${file(workoutInstances/serverless.resource.yml)}
+

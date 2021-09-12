@@ -1,0 +1,23 @@
+appUserCreate:
+  handler: appUsers/create.create
+  events:
+    - http:
+        path: appUsers
+        method: post
+        cors: true
+
+appUserGet:
+  handler: appUsers/get.get
+  events:
+    - http:
+        path: appUsers/{uid}
+        method: get
+        cors: true
+
+appUserUpdate:
+  handler: appUsers/update.update
+  events:
+    - http:
+        path: appUsers/{uid}
+        method: put
+        cors: true

@@ -1,0 +1,31 @@
+workoutInstanceCreate:
+  handler: workoutInstances/create.create
+  events:
+    - http:
+        path: workoutInstance
+        method: post
+        cors: true
+
+workoutInstanceGet:
+  handler: workoutInstances/get.get
+  events:
+    - http:
+        path: workoutInstance/{iid}
+        method: get
+        cors: true
+
+workoutInstanceGetByWorkout:
+  handler: workoutInstances/list.list
+  events:
+    - http:
+        path: workoutInstance/workout/{wid}
+        method: get
+        cors: true
+
+workoutInstanceUpdate:
+  handler: workoutInstances/update.update
+  events:
+    - http:
+        path: workoutInstance/{iid}
+        method: put
+        cors: true

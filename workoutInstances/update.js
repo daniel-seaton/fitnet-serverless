@@ -5,25 +5,22 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.update = (event, context, callback) => {
-  const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
-
-  // TODO validation
 
   let names = {},
       values = {},
       expressions = [];
 
   Object.keys(data).forEach((key) => {
-    names[`#appUsers_${key}`] = key;
+    names[`#workoutInstances_${key}`] = key;
     values[`:${key}`] = data[key];
-    expressions.push(`#appUsers_${key} = :${key}`);
+    expressions.push(`#workoutInstances_${key} = :${key}`);
   });
 
   const params = {
-    TableName: process.env.APPUSER_TABLE,
+    TableName: process.env.WORKOUTINSTANCE_TABLE,
     Key: {
-      uid: event.pathParameters.uid,
+      iid: event.pathParameters.iid,
     },
     ExpressionAttributeNames: names,
     ExpressionAttributeValues: values,
@@ -39,7 +36,7 @@ module.exports.update = (event, context, callback) => {
       callback(null, {
         statusCode: error.statusCode || 501,
         headers: { 'Content-Type': 'text/plain' },
-        body: `Failed to update appUser ${event.pathParameters.uid}: ${error}`,
+        body: `Failed to update instance ${event.pathParameters.iid}: ${error}`,
       });
       return;
     }

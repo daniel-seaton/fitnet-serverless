@@ -8,22 +8,24 @@ module.exports.update = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
 
-  // TODO validation
+  //  TODO validation
 
   let names = {},
-      values = {},
-      expressions = [];
+    values = {},
+    expressions = [];
+
+  data['updated'] = timestamp;
 
   Object.keys(data).forEach((key) => {
-    names[`#appUsers_${key}`] = key;
+    names[`#workouts_${key}`] = key;
     values[`:${key}`] = data[key];
-    expressions.push(`#appUsers_${key} = :${key}`);
+    expressions.push(`#workouts_${key} = :${key}`);
   });
 
   const params = {
-    TableName: process.env.APPUSER_TABLE,
+    TableName: process.env.WORKOUT_TABLE,
     Key: {
-      uid: event.pathParameters.uid,
+      wid: event.pathParameters.wid,
     },
     ExpressionAttributeNames: names,
     ExpressionAttributeValues: values,
@@ -39,7 +41,7 @@ module.exports.update = (event, context, callback) => {
       callback(null, {
         statusCode: error.statusCode || 501,
         headers: { 'Content-Type': 'text/plain' },
-        body: `Failed to update appUser ${event.pathParameters.uid}: ${error}`,
+        body: `Couldn't update workout instane ${event.pathParameters.wid}: ${error}`,
       });
       return;
     }
