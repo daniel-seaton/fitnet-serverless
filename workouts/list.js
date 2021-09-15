@@ -9,7 +9,8 @@ module.exports.list = (event, context, callback) => {
     TableName: process.env.WORKOUT_TABLE,
     IndexName: 'uid_Index',
     KeyConditionExpression: 'uid = :uid',
-    ExpressionAttributeValues: { ':uid': event.pathParameters.uid } 
+    ExpressionAttributeValues: { ':uid': event.pathParameters.uid },
+    ScanIndexForward: false
   };
 
   // fetch all todos from the database

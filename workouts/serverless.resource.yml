@@ -13,6 +13,9 @@ Resources:
         -
           AttributeName: uid
           AttributeType: S
+        -
+          AttributeName: updated
+          AttributeType: N
       KeySchema:
         -
           AttributeName: wid
@@ -24,6 +27,9 @@ Resources:
             -
               AttributeName: uid
               KeyType: HASH
+            -
+              AttributeName: updated
+              KeyType: RANGE
           Projection:
             ProjectionType: 'ALL'
           ProvisionedThroughput:

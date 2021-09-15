@@ -9,7 +9,8 @@ module.exports.list = (event, context, callback) => {
     TableName: process.env.WORKOUTINSTANCE_TABLE,
     IndexName: 'wid_Index',
     KeyConditionExpression: 'wid = :wid',
-    ExpressionAttributeValues: { ':wid': event.pathParameters.wid } 
+    ExpressionAttributeValues: { ':wid': event.pathParameters.wid },
+    ScanIndexForward: false
   };
 
   // fetch all todos from the database

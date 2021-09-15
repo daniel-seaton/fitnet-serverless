@@ -13,6 +13,9 @@ Resources:
         -
           AttributeName: wid
           AttributeType: S
+        -
+          AttributeName: start
+          AttributeType: N
       KeySchema:
         -
           AttributeName: iid
@@ -24,6 +27,9 @@ Resources:
             - 
               AttributeName: wid
               KeyType: HASH
+            -
+              AttributeName: start
+              KeyType: RANGE
           Projection:
             ProjectionType: 'ALL'
           ProvisionedThroughput:

@@ -8,12 +8,11 @@ module.exports.update = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
 
-  //  TODO validation
-
   let names = {},
-    values = {},
-    expressions = [];
+      values = {},
+      expressions = [];
 
+  delete data.wid;
   data['updated'] = timestamp;
 
   Object.keys(data).forEach((key) => {

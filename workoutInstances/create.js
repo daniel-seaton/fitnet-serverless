@@ -20,6 +20,8 @@ module.exports.create = (event, context, callback) => {
     },
   };
 
+  console.log(`adding instance ${data.iid}: ${JSON.stringify(params.Item)}`);
+
   // write the todo to the database
   dynamoDb.put(params, (error) => {
     // handle potential errors
