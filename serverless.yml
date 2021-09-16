@@ -24,6 +24,7 @@ functions:
   - ${file(workoutInstances/serverless.functions.yml)}
 
 resources:
+  - ${file(serverless.auth.yml)}
   - ${file(appUsers/serverless.resource.yml)}
   - ${file(workouts/serverless.resource.yml)}
   - ${file(workoutInstances/serverless.resource.yml)}

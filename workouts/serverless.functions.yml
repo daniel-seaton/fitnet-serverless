@@ -5,6 +5,10 @@ workoutCreate:
         path: workout
         method: post
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
 
 workoutGet:
   handler: workouts/get.get
@@ -13,6 +17,10 @@ workoutGet:
         path: workout/{wid}
         method: get
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
 
 workoutListByUser:
   handler: workouts/list.list
@@ -21,6 +29,10 @@ workoutListByUser:
         path: workout/user/{uid}
         method: get
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
 
 workoutUpdate:
   handler: workouts/update.update
@@ -29,6 +41,10 @@ workoutUpdate:
         path: workout/{wid}
         method: put
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
 
 workoutDelete:
   handler: workouts/delete.delete
@@ -37,3 +53,7 @@ workoutDelete:
         path: workout/{wid}
         method: delete
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer

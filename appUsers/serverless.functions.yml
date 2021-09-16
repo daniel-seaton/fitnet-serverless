@@ -13,6 +13,10 @@ appUserGet:
         path: appUsers/{uid}
         method: get
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
 
 appUserUpdate:
   handler: appUsers/update.update
@@ -21,3 +25,7 @@ appUserUpdate:
         path: appUsers/{uid}
         method: put
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer

@@ -5,6 +5,10 @@ workoutInstanceCreate:
         path: workoutInstance
         method: post
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
 
 workoutInstanceGet:
   handler: workoutInstances/get.get
@@ -13,6 +17,10 @@ workoutInstanceGet:
         path: workoutInstance/{iid}
         method: get
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
 
 workoutInstanceGetByWorkout:
   handler: workoutInstances/list.list
@@ -21,6 +29,10 @@ workoutInstanceGetByWorkout:
         path: workoutInstance/workout/{wid}
         method: get
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
 
 workoutInstanceUpdate:
   handler: workoutInstances/update.update
@@ -29,3 +41,7 @@ workoutInstanceUpdate:
         path: workoutInstance/{iid}
         method: put
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
