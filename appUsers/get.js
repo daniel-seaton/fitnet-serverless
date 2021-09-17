@@ -1,12 +1,20 @@
 'use strict';
 
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
-
+const Constants = require('./constants');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.get = (event, context, callback) => {
+  if(!event.pathParameters.uid){
+    callback(null, {
+      statusCode: 400,
+      headers: { 'Content-Type': 'text/plain' },
+      body: `Couldn't fetch appUser: missing path parameter uid`,
+    });
+  }
+
   const params = {
-    TableName: process.env.APPUSER_TABLE,
+    TableName: Constants.TableName,
     Key: {
       uid: event.pathParameters.uid,
     },
@@ -20,7 +28,7 @@ module.exports.get = (event, context, callback) => {
       callback(null, {
         statusCode: error.statusCode || 501,
         headers: { 'Content-Type': 'text/plain' },
-        body: 'Couldn\'t fetch the todo item.',
+        body: `Couldn't fetch the appUser: ${e}`,
       });
       return;
     }

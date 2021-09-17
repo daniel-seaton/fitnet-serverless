@@ -3,10 +3,11 @@
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const Constants = require('./constants');
 
 module.exports.list = (event, context, callback) => {
   const params = {
-    TableName: process.env.WORKOUTINSTANCE_TABLE,
+    TableName: Constants.TableName,
     IndexName: 'wid_Index',
     KeyConditionExpression: 'wid = :wid',
     ExpressionAttributeValues: { ':wid': event.pathParameters.wid },

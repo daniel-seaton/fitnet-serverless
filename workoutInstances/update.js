@@ -1,6 +1,8 @@
 'use strict';
 
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const Utils = require('../utils');
+const Constants = require('./constants');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -8,21 +10,24 @@ module.exports.update = (event, context, callback) => {
   const data = JSON.parse(event.body);
   const timestamp = new Date().getTime();
 
-  let names = {},
-      values = {},
-      expressions = [];
+  let validationErrors;
+  if(validationErrors = Utils.validateData(data, Constants.Validations)){
+    console.error(validationErrors);
+    callback(null, {
+      statusCode: 400,
+      headers: { 'Content-Type': 'text/plain'},
+      body: 'Unable to create the appUser: failed validations'
+    });
+    return;
+  }
 
   delete data.iid;
   data['updated'] = timestamp;
 
-  Object.keys(data).forEach((key) => {
-    names[`#workoutInstances_${key}`] = key;
-    values[`:${key}`] = data[key];
-    expressions.push(`#workoutInstances_${key} = :${key}`);
-  });
+  const {names, values, expressions} = Utils.mapDataToParams(Constants.EntityName, data);
 
   const params = {
-    TableName: process.env.WORKOUTINSTANCE_TABLE,
+    TableName: Constants.TableName,
     Key: {
       iid: event.pathParameters.iid,
     },

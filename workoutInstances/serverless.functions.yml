@@ -1,4 +1,5 @@
 workoutInstanceCreate:
+  name: workoutInstanceCreate-${self:custom.stage}
   handler: workoutInstances/create.create
   events:
     - http:
@@ -11,6 +12,7 @@ workoutInstanceCreate:
             Ref: ApiGatewayAuthorizer
 
 workoutInstanceGet:
+  name: workoutInstanceGet-${self:custom.stage}
   handler: workoutInstances/get.get
   events:
     - http:
@@ -23,6 +25,7 @@ workoutInstanceGet:
             Ref: ApiGatewayAuthorizer
 
 workoutInstanceGetByWorkout:
+  name: workoutInstanceGetByWorkout-${self:custom.stage}
   handler: workoutInstances/list.list
   events:
     - http:
@@ -35,6 +38,7 @@ workoutInstanceGetByWorkout:
             Ref: ApiGatewayAuthorizer
 
 workoutInstanceUpdate:
+  name: workoutInstanceUpdate-${self:custom.stage}
   handler: workoutInstances/update.update
   events:
     - http:

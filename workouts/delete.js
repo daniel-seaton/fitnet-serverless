@@ -1,12 +1,13 @@
 'use strict';
 
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const Constants = require('./constants');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.delete = (event, context, callback) => {
   const params = {
-    TableName: process.env.WORKOUT_TABLE,
+    TableName: Constants.TableName,
     Key: {
       wid: event.pathParameters.wid,
     },

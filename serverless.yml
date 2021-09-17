@@ -1,12 +1,16 @@
 service: fitnet-serverless
 
+custom:
+  stage: ${opt:stage, self:provider.stage}
+
 provider:
   name: aws
   runtime: nodejs10.x
+  stage: dev
   environment:
-    APPUSER_TABLE: AppUsers
-    WORKOUT_TABLE: Workouts
-    WORKOUTINSTANCE_TABLE: WorkoutInstances
+    APPUSER_TABLE: AppUsers-${self:custom.stage}
+    WORKOUT_TABLE: Workouts-${self:custom.stage}
+    WORKOUTINSTANCE_TABLE: WorkoutInstances-${self:custom.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:

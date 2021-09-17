@@ -2,16 +2,31 @@
 
 const uuid = require('uuid');
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const Utils = require('../utils');
+const Constants = require('./constants');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.create = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
+
+  const validationErrors = Utils.validateData(data, Constants.Validations);
+  console.error(validationErrors);
+  if(validationErrors){
+    console.error(validationErrors);
+    callback(null, {
+      statusCode: 400,
+      headers: { 'Content-Type': 'text/plain'},
+      body: 'Unable to create the appUser: failed validations'
+    });
+    return;
+  }
+
   const params = {
-    TableName: process.env.APPUSER_TABLE,
+    TableName: Constants.TableName,
     Item: {
-      uid: data.uid || uuid.v4(),
+      uid: data.uid,
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,

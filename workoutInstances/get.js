@@ -3,6 +3,7 @@
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const Constants = require('./constants');
 
 module.exports.get = (event, context, callback) => {
   callback(null, {statusCode: 404, body: 'Method not implemented'});

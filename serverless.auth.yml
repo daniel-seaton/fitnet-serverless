@@ -3,7 +3,14 @@ Resources:
     Type: "AWS::Cognito::UserPool"
     Properties:
       MfaConfiguration: OFF
-      UserPoolName: fitnet-app-users
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - 
+            Name: verified_email
+            Priority: 1
+      UserPoolName: fitnet-app-users-${self:custom.stage}
+      AutoVerifiedAttributes: 
+        - email
       Schema: 
         - 
           AttributeDataType: String
@@ -19,7 +26,7 @@ Resources:
   CognitoUserPoolClient:
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: fitnet-app
+      ClientName: fitnet-app-${self:custom.stage}
       GenerateSecret: true
       UserPoolId:
         Ref: CognitoUserPool
@@ -29,7 +36,7 @@ Resources:
       - ApiGatewayRestApi
     Type: AWS::ApiGateway::Authorizer
     Properties:
-      Name: cognito-authorizer
+      Name: cognito-authorizer-${self:custom.stage}
       IdentitySource: method.request.header.authorization
       RestApiId:
         Ref: ApiGatewayRestApi

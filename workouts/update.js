@@ -1,6 +1,8 @@
 'use strict';
 
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const Utils = require('../utils');
+const Constants = require('./constants');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -8,21 +10,24 @@ module.exports.update = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
 
-  let names = {},
-      values = {},
-      expressions = [];
+  let validationErrors;
+  if(validationErrors = Utils.validateData(data, Constants.Validations)){
+    console.error(validationErrors);
+    callback(null, {
+      statusCode: 400,
+      headers: { 'Content-Type': 'text/plain'},
+      body: 'Unable to update workout: failed validations'
+    });
+    return;
+  }
 
   delete data.wid;
   data['updated'] = timestamp;
 
-  Object.keys(data).forEach((key) => {
-    names[`#workouts_${key}`] = key;
-    values[`:${key}`] = data[key];
-    expressions.push(`#workouts_${key} = :${key}`);
-  });
+  const {names, values, expressions} = Utils.mapDataToParams(Constants.EntityName, data);
 
   const params = {
-    TableName: process.env.WORKOUT_TABLE,
+    TableName: Constants.TableName,
     Key: {
       wid: event.pathParameters.wid,
     },
@@ -40,7 +45,7 @@ module.exports.update = (event, context, callback) => {
       callback(null, {
         statusCode: error.statusCode || 501,
         headers: { 'Content-Type': 'text/plain' },
-        body: `Couldn't update workout instane ${event.pathParameters.wid}: ${error}`,
+        body: `Unable to update workout ${event.pathParameters.wid}: ${error}`,
       });
       return;
     }

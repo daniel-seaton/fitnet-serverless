@@ -1,4 +1,5 @@
 appUserCreate:
+  name: appUserCreate-${self:custom.stage}
   handler: appUsers/create.create
   events:
     - http:
@@ -7,6 +8,7 @@ appUserCreate:
         cors: true
 
 appUserGet:
+  name: appUserGet-${self:custom.stage}
   handler: appUsers/get.get
   events:
     - http:
@@ -19,6 +21,7 @@ appUserGet:
             Ref: ApiGatewayAuthorizer
 
 appUserUpdate:
+  name: appUserUpdate-${self:custom.stage}
   handler: appUsers/update.update
   events:
     - http:
