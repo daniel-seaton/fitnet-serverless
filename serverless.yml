@@ -8,9 +8,13 @@ provider:
   runtime: nodejs10.x
   stage: dev
   environment:
+    stage: ${self:custom.stage}
     APPUSER_TABLE: AppUsers-${self:custom.stage}
     WORKOUT_TABLE: Workouts-${self:custom.stage}
     WORKOUTINSTANCE_TABLE: WorkoutInstances-${self:custom.stage}
+    S3_PROFILE_IMAGE_BUCKET: profile-image-uploads-${self:custom.stage}
+    S3_ACCESS_KEY_ID: AKIAYCAHENAXGSNVGNML
+    S3_ACCESS_KEY_SECRET: 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
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -21,6 +25,10 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:us-east-1:554065750062:table/*"
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "arn:aws:s3:::profile-image-uploads-${self:custom.stage}/*"
 
 functions:
   - ${file(appUsers/serverless.functions.yml)}

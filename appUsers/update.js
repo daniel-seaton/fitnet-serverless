@@ -21,6 +21,9 @@ module.exports.update = (event, context, callback) => {
     return;
   }
 
+  delete data.uid;
+  data.updated = timestamp;
+
   const {names, values, expressions} = Utils.mapDataToParams(Constants.EntityName, data);
 
   const params = {

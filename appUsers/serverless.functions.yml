@@ -32,3 +32,30 @@ appUserUpdate:
           type: COGNITO_USER_POOLS
           authorizerId:
             Ref: ApiGatewayAuthorizer
+
+# profile image
+appUserUpdateProfileImage:
+  name: appUserUpdateProfileImage-${self:custom.stage}
+  handler: appUsers/profileImage/update.update
+  events:
+    - http:
+        path: appUsers/{uid}/profileImage/{version}
+        method: put
+        cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
+
+appUserGetProfileImage:
+  name: appUserGetProfileImage-${self:custom.stage}
+  handler: appUsers/profileImage/get.get
+  events:
+    - http:
+        path: appUsers/{uid}/profileImage/{version}
+        method: get
+        cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer

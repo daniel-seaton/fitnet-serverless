@@ -15,3 +15,20 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
       TableName: ${self:provider.environment.APPUSER_TABLE}
+
+  profileImageUploadBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties: 
+      BucketName: 'profile-image-uploads-${self:provider.stage}'
+      AccessControl: Private
+      CorsConfiguration:
+        CorsRules:
+        - AllowedMethods:
+          - GET
+          - PUT
+          - POST
+          - HEAD
+          AllowedOrigins:
+          - "*"
+          AllowedHeaders:
+          - "*"
