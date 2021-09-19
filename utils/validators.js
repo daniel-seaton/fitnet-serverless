@@ -32,7 +32,7 @@ module.exports.validateData = (data, validations) => {
         }
     });
 
-    const invalidProperties = Object.keys(data).filter((prop) => !Object.keys(validations).some((key) === prop));
+    const invalidProperties = Object.keys(data).filter((prop) => !Object.keys(validations).some((key) => key === prop));
     if (invalidProperties.length > 0) {
         validationErrors[`invalidProperty`] = `Invalid properties: ${invalidProperties.join(", ")}`;
     }

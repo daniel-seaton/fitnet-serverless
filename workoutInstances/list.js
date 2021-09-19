@@ -4,6 +4,7 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const Constants = require('./constants');
+const Utils = require('../utils');
 
 module.exports.list = (event, context, callback) => {
   const params = {

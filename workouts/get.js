@@ -2,6 +2,7 @@
 
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
 const Constants = require('./constants');
+const Utils = require('../utils');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 

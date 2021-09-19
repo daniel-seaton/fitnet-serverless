@@ -4,6 +4,7 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const Constants = require('./constants');
+const Utils = require('../utils');
 
 module.exports.delete = (event, context, callback) => {
   callback(null, {statusCode: 404, body: 'Method not implemented'});
